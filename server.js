@@ -1,17 +1,20 @@
-const express = require('express');
-const app = express();
+const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-app.use(express.static('public'));
+
+let players = []
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/public/index.html');
 });
 
+const getRandomNumber = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+}
+
 io.on('connection', function(socket){
-    console.log('a user connected' + socket.id);
-    io.emit('create player', 'blablabla')
+    console.log(getRandomNumber(0, 600))
 });
 
 http.listen(3000, function(){
