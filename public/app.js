@@ -5,8 +5,6 @@ const app = {
     ctx: canvas.getContext('2d'),
     init: function() {
 
-        const socket = io()
-
         this.ctx.fillStyle = '#283747';
         this.ctx.fillRect(0, 0, 600, 600);
 
