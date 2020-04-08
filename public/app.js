@@ -1,35 +1,23 @@
-const app = {
+const socket = io()
+const canvas = document.getElementById('canvas')
+const ctx = canvas.getContext('2d')
 
-    socket: io(),
-    canvas: document.getElementById('canvas'),
-    ctx: canvas.getContext('2d'),
-    init: function() {
+const drawCanvas = () => {
+    ctx.fillStyle = '#283747';
+    ctx.fillRect(0, 0, 600, 600);
+} 
 
-        this.ctx.fillStyle = '#283747';
-        this.ctx.fillRect(0, 0, 600, 600);
+socket.on('send players', function(players) {
+    console.log(players)
+    ctx.clearRect(0, 0, 600, 600);
+    drawCanvas()
+    players.forEach(el => {
 
-        this.drawPlayers()
-        this.updatePlayers()
-    },
-    updatePlayers: function() {
-        this.socket.on('update players', function(players) {
-            console.log(players)
-        })
-    },
-    drawPlayers: function() {
-        this.socket.on('draw players', function(players) {
-            players.forEach(el => {
-                let canvas =  document.getElementById('canvas')
-                let ctx = canvas.getContext('2d')
+        ctx.fillStyle = 'red';
+        ctx.fillRect(el.x, el.y, el.width, el.width);
 
-                ctx.fillStyle = 'red';
-                ctx.fillRect(el.x, el.y, el.width, el.width);
+    })
+})
 
-            })
-        })
-    },
-}
-
-app.init()
 
 

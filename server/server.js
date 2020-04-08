@@ -12,19 +12,28 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
   });
 
-const players = []
+let players = []
 
 io.on('connection', function(socket){
     console.log('a user connected' + socket.id);
 
-    let player = new Player(socket.id, 50, 50, 20);
+    let player = new Player(socket.id, getRandom(600, 0), getRandom(600, 0), 20);
 
-    console.log(player)
+    players.push(player)
 
-    socket.on('disconnect', function(){
+    io.emit('send players', players)
+
+    socket.on('disconnect', () => {
+        players = players.filter(el => el.id !== socket.id)
         console.log('user disconnected' + socket.id);
+        console.log(players)
+        io.emit('send players', players)
       });
   });
+
+const getRandom = (min, max) => {
+  return Math.round(Math.random() * (max - min) + min);
+}
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
