@@ -12,22 +12,33 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
   });
 
-let players = []
+const game = {
+  players: {}
+}
 
 io.on('connection', function(socket){
     console.log('a user connected' + socket.id);
 
-    let player = new Player(socket.id, getRandom(600, 0), getRandom(600, 0), 20);
+    game.players[socket.id] = new Player(socket.id, 20, 20)
+    console.log(game.players)
 
-    players.push(player)
-
-    io.emit('send players', players)
+    setInterval(() => {
+      io.emit('send players', game.players)
+    }, 1000/60)
+    
+    socket.on('mouseMove', (mousePos) => {
+      if (game.players[socket.id] !== undefined) {
+        let playerX = game.players[socket.id].x;
+        let playerY = game.players[socket.id].y;
+        let distanceX =  mousePos.x - playerX;
+        let distanceY =  mousePos.y - playerY;
+          game.players[socket.id].x += distanceX / 100
+          game.players[socket.id].y += distanceY / 100
+      }
+    })
 
     socket.on('disconnect', () => {
-        players = players.filter(el => el.id !== socket.id)
-        console.log('user disconnected' + socket.id);
-        console.log(players)
-        io.emit('send players', players)
+        delete game.players[socket.id]
       });
   });
 

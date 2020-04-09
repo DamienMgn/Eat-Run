@@ -9,13 +9,21 @@ const drawCanvas = () => {
 } 
 
 socket.on('send players', function(players) {
-    console.log(players)
     drawCanvas()
-    players.forEach(el => {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(el.x, el.y, el.width, el.width);
-    })
+    for (let player in players) {
+        ctx.fillStyle = 'yellow';
+        ctx.fillRect(players[player].x, players[player].y, players[player].width, players[player].height);
+    }
 })
 
+const draw = () => {
+
+}
+
+document.onmousemove = (event) => {
+    let mousePos = {x: event.clientX, y: event.clientY}
+    console.log(mousePos)
+    socket.emit('mouseMove', mousePos)
+}
 
 
