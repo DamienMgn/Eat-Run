@@ -10,9 +10,24 @@ const drawCanvas = () => {
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#283747';
     ctx.fillRect(0, 0, w, h);
-} 
+}
 
-socket.on('send players', function(players) {
+let formStart = document.querySelector('#form-start')
+
+formStart.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let data = {
+        name: e.target.name.value,
+        w: w,
+        h: h,
+    }
+    socket.emit('startGame', data)
+    formStart.style.display = 'none'
+})
+
+socket.on('sendPlayers', function(game) {
+    let players = game.players
+    let foods = game.foods
     drawCanvas()
     for (let player in players) {
         ctx.beginPath();
@@ -20,11 +35,19 @@ socket.on('send players', function(players) {
         ctx.fillStyle = '#2ECC71';
         ctx.fill();
     }
+
+    foods.map(food => {
+        ctx.beginPath();
+        ctx.arc(food[0], food[1], food[2], 0, 2 * Math.PI, false);
+        ctx.fillStyle = '#2ECC71';
+        ctx.fill();
+    })
+
 })
 
-canvas.onmousemove = (event) => {
+canvas.onclick = (event) => {
     let mousePos = {x: event.clientX, y: event.clientY}
-    socket.emit('mouseMove', mousePos)
+    socket.emit('mouseClick', mousePos)
 }
 
 

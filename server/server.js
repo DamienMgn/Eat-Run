@@ -13,25 +13,48 @@ app.get('/', function(req, res){
   });
 
 const game = {
-  players: {}
+  players: {},
+  foods: []
 }
 
 io.on('connection', function(socket){
     console.log('a user connected' + socket.id);
 
-      game.players[socket.id] = new Player(socket.id, 20, 100, 0, 0)
+    /* Nouveau joueur */
+    socket.on('startGame', (data) => {
+      game.players[socket.id] = new Player(socket.id, 20, 0, 0, data.name)
       console.log(game.players)
+    })
 
+    
+    /* Ajout de la nourriture */
+    if(game.foods.length === 0) {
+      for (i = 0; i <= 100; i++) {
+        let food = [getRandom(0, 1500), getRandom(0, 1500), 5]
+        game.foods.push(food)
+      }
+    }
+
+
+    /* Envoi des données au client */
       let interval = setInterval(() => {
-        io.emit('send players', game.players)
-        followMouse(socket)
+        io.emit('sendPlayers', game)
+        if (game.players[socket.id] != undefined) {
+          game.players[socket.id].followMouse()
+        }
       }, 1000/60)
 
-      socket.on('mouseMove', (mousePos) => {
-        game.players[socket.id].mouseX = mousePos.x
-        game.players[socket.id].mouseY = mousePos.y
+
+    /* Mise à jour position souris */
+      socket.on('mouseClick', (mousePos) => {
+        if(game.players[socket.id] != undefined) {
+          game.players[socket.id].mouseX = mousePos.x
+          game.players[socket.id].mouseY = mousePos.y
+        }
       })
 
+    
+    /* Déconnexion du joueur */
       socket.on('disconnect', () => {
         delete game.players[socket.id]
         clearInterval(interval)
@@ -39,19 +62,10 @@ io.on('connection', function(socket){
 
   });
 
-const followMouse = (socket) => {
 
-  let playerX = game.players[socket.id].x;
-  let playerY = game.players[socket.id].y;
-  let mouseX = game.players[socket.id].mouseX;
-  let mouseY = game.players[socket.id].mouseY;
-  let distanceX =  mouseX - playerX;
-  let distanceY =  mouseY - playerY;
-
-  game.players[socket.id].x += distanceX / game.players[socket.id].s
-  game.players[socket.id].y += distanceY / game.players[socket.id].s
-
-}
+  const getRandom = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+  }
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
