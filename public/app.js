@@ -16,7 +16,12 @@ let formStart = document.querySelector('#form-start')
 
 formStart.addEventListener('submit', (e) => {
     e.preventDefault();
-    socket.emit('startGame', e.target.name.value)
+    let data = {
+        name: e.target.name.value,
+        w: w,
+        h: h,
+    }
+    socket.emit('startGame', data)
     formStart.style.display = 'none'
 })
 

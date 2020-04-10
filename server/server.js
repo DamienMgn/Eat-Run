@@ -21,8 +21,8 @@ io.on('connection', function(socket){
     console.log('a user connected' + socket.id);
 
     /* Nouveau joueur */
-    socket.on('startGame', (name) => {
-      game.players[socket.id] = new Player(socket.id, 20, 0, 0, name)
+    socket.on('startGame', (data) => {
+      game.players[socket.id] = new Player(socket.id, 20, 0, 0, data.name)
       console.log(game.players)
     })
 
@@ -30,7 +30,7 @@ io.on('connection', function(socket){
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
       for (i = 0; i <= 100; i++) {
-        let food = [getRandom(0, 600), getRandom(0, 600), 5]
+        let food = [getRandom(0, 1500), getRandom(0, 1500), 5]
         game.foods.push(food)
       }
     }
