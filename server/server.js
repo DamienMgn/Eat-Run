@@ -24,8 +24,9 @@ io.on('connection', function(socket){
 
       let interval = setInterval(() => {
         io.emit('send players', game.players)
-        followMouse(socket)
-
+        if (game.players[socket.id] != undefined) {
+          game.players[socket.id].followMouse()
+        }
       }, 1000/60)
 
       socket.on('mouseMove', (mousePos) => {
@@ -39,20 +40,6 @@ io.on('connection', function(socket){
       });
 
   });
-
-const followMouse = (socket) => {
-
-  let playerX = game.players[socket.id].x;
-  let playerY = game.players[socket.id].y;
-  let mouseX = game.players[socket.id].mouseX;
-  let mouseY = game.players[socket.id].mouseY;
-  let distanceX =  mouseX - playerX;
-  let distanceY =  mouseY - playerY;
-
-  game.players[socket.id].x += distanceX / game.players[socket.id].r
-  game.players[socket.id].y += distanceY / game.players[socket.id].r
-
-}
 
 http.listen(3000, function(){
   console.log('listening on *:3000');

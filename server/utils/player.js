@@ -10,9 +10,15 @@ class Player {
         this.e = 0
     }
 
-    add = () => {
-        this.e ++
-    }
+    followMouse = () => {
+
+        let distanceX =  this.mouseX - this.x;
+        let distanceY =  this.mouseY - this.y;
+      
+        this.x += distanceX / this.r
+        this.y += distanceY / this.r
+
+      }
 }
 
 module.exports = {Player};
