@@ -1,12 +1,13 @@
 class Player {
-    constructor(id, r, mouseX, mouseY) {
+    constructor(id, r, mouseX, mouseY, name) {
         this.id = id;
         this.x = Math.round(Math.random() * (600 - 0) + 0);
         this.y = Math.round(Math.random() * (600 - 0) + 0);
         this.r = r;
         this.mouseX = mouseX;
         this.mouseY = mouseY;
-        this.e = 0
+        this.e = 0;
+        this.name = name
     }
 
     followMouse = () => {

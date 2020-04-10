@@ -21,14 +21,16 @@ io.on('connection', function(socket){
     console.log('a user connected' + socket.id);
 
     /* Nouveau joueur */
-      game.players[socket.id] = new Player(socket.id, 20, 0, 0)
+    socket.on('startGame', (name) => {
+      game.players[socket.id] = new Player(socket.id, 20, 0, 0, name)
       console.log(game.players)
-    
+    })
+
     
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
       for (i = 0; i <= 100; i++) {
-        let food = [getRandom(0, 600), getRandom(0, 600), 10]
+        let food = [getRandom(0, 600), getRandom(0, 600), 5]
         game.foods.push(food)
       }
     }
@@ -45,8 +47,10 @@ io.on('connection', function(socket){
 
     /* Mise à jour position souris */
       socket.on('mouseClick', (mousePos) => {
-        game.players[socket.id].mouseX = mousePos.x
-        game.players[socket.id].mouseY = mousePos.y
+        if(game.players[socket.id] != undefined) {
+          game.players[socket.id].mouseX = mousePos.x
+          game.players[socket.id].mouseY = mousePos.y
+        }
       })
 
     

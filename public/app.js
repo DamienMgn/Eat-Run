@@ -10,7 +10,15 @@ const drawCanvas = () => {
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#283747';
     ctx.fillRect(0, 0, w, h);
-} 
+}
+
+let formStart = document.querySelector('#form-start')
+
+formStart.addEventListener('submit', (e) => {
+    e.preventDefault();
+    socket.emit('startGame', e.target.name.value)
+    formStart.style.display = 'none'
+})
 
 socket.on('sendPlayers', function(game) {
     let players = game.players
