@@ -12,7 +12,9 @@ const drawCanvas = () => {
     ctx.fillRect(0, 0, w, h);
 } 
 
-socket.on('send players', function(players) {
+socket.on('sendPlayers', function(game) {
+    let players = game.players
+    let foods = game.foods
     drawCanvas()
     for (let player in players) {
         ctx.beginPath();
@@ -20,11 +22,19 @@ socket.on('send players', function(players) {
         ctx.fillStyle = '#2ECC71';
         ctx.fill();
     }
+
+    foods.map(food => {
+        ctx.beginPath();
+        ctx.arc(food[0], food[1], food[2], 0, 2 * Math.PI, false);
+        ctx.fillStyle = '#2ECC71';
+        ctx.fill();
+    })
+
 })
 
 canvas.onclick = (event) => {
     let mousePos = {x: event.clientX, y: event.clientY}
-    socket.emit('mouseMove', mousePos)
+    socket.emit('mouseClick', mousePos)
 }
 
 
