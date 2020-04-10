@@ -25,6 +25,7 @@ io.on('connection', function(socket){
       let interval = setInterval(() => {
         io.emit('send players', game.players)
         followMouse(socket)
+
       }, 1000/60)
 
       socket.on('mouseMove', (mousePos) => {
@@ -48,8 +49,8 @@ const followMouse = (socket) => {
   let distanceX =  mouseX - playerX;
   let distanceY =  mouseY - playerY;
 
-  game.players[socket.id].x += distanceX / game.players[socket.id].s
-  game.players[socket.id].y += distanceY / game.players[socket.id].s
+  game.players[socket.id].x += distanceX / game.players[socket.id].r
+  game.players[socket.id].y += distanceY / game.players[socket.id].r
 
 }
 

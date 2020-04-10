@@ -22,7 +22,7 @@ socket.on('send players', function(players) {
     }
 })
 
-canvas.onmousemove = (event) => {
+canvas.onclick = (event) => {
     let mousePos = {x: event.clientX, y: event.clientY}
     socket.emit('mouseMove', mousePos)
 }

@@ -7,6 +7,11 @@ class Player {
         this.s = s;
         this.mouseX = mouseX;
         this.mouseY = mouseY;
+        this.e = 0
+    }
+
+    add = () => {
+        this.e ++
     }
 }
 
