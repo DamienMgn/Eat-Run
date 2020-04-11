@@ -1,8 +1,8 @@
 const socket = io();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-let w = window.innerWidth;
-let h = window.innerHeight;
+let w = 3000;
+let h = 3000;
 
 const drawCanvas = () => {
     canvas.width = w;
@@ -10,6 +10,13 @@ const drawCanvas = () => {
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#283747';
     ctx.fillRect(0, 0, w, h);
+}
+
+const dist = {
+    x: 0,
+    y: 0,
+    lastX: 0,
+    lastY: 0
 }
 
 let formStart = document.querySelector('#form-start')
@@ -25,13 +32,23 @@ formStart.addEventListener('submit', (e) => {
     formStart.style.display = 'none'
 })
 
-socket.on('sendPlayers', function(game) {
-    let players = game.players
-    let foods = game.foods
-    drawCanvas()
+socket.on('sendPlayers', function(data) {
+    let players = data.game.players
+    let foods = data.game.foods
+    let activePlayer = players[data.playerId]
+
+    if (activePlayer !== undefined) {
+        drawCanvas()
+        ctx.translate(-activePlayer.x + window.innerWidth / 2, -activePlayer.y + window.innerHeight / 2)
+        console.log(activePlayer)
+    }   
+
     for (let player in players) {
+        let posX = players[player].x
+        let posY = players[player].y
+
         ctx.beginPath();
-        ctx.arc(players[player].x, players[player].y, players[player].r, 0, 2 * Math.PI, false);
+        ctx.arc(posX, posY, players[player].r, 0, 2 * Math.PI, false);
         ctx.fillStyle = '#2ECC71';
         ctx.fill();
     }
@@ -46,8 +63,29 @@ socket.on('sendPlayers', function(game) {
 })
 
 canvas.onclick = (event) => {
-    let mousePos = {x: event.clientX, y: event.clientY}
-    socket.emit('mouseClick', mousePos)
+    let mousePos = {x: event.offsetX, y: event.offsetY}
+
+    if (mousePos.x >= (window.innerWidth / 2)) {
+        dist.x += mousePos.x
+    }
+      
+    if (mousePos.x <= (window.innerWidth / 2)) {
+        dist.x -= mousePos.x
+    }
+
+    if (mousePos.y >= (window.innerHeight / 2)) {
+        dist.y += mousePos.y
+    }
+
+    if (mousePos.x <= (window.innerHeight / 2)) {
+        dist.y -= mousePos.y
+    }
+
+    console.log(mousePos.x + ' ' + window.innerWidth)
+        
+    socket.emit('mouseClick', dist)
+    console.log("Coordinate x: " + dist.x,  
+                "Coordinate y: " + dist.y); 
 }
 
 
