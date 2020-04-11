@@ -1,12 +1,11 @@
 class Player {
     constructor(id, r, mouseX, mouseY, name) {
         this.id = id;
-        this.x = Math.round(Math.random() * (600 - 0) + 0);
-        this.y = Math.round(Math.random() * (600 - 0) + 0);
+        this.x = Math.round(Math.random() * (3000 - 0) + 0);
+        this.y = Math.round(Math.random() * (3000 - 0) + 0);
         this.r = r;
-        this.mouseX = mouseX;
-        this.mouseY = mouseY;
-        this.e = 0;
+        this.mouseX = this.x;
+        this.mouseY = this.y;
         this.name = name
     }
 

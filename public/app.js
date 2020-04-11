@@ -10,14 +10,10 @@ const drawCanvas = () => {
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#283747';
     ctx.fillRect(0, 0, w, h);
+    ctx.stroke();
 }
 
-const dist = {
-    x: 0,
-    y: 0,
-    lastX: 0,
-    lastY: 0
-}
+const dist = {x: 0, y: 0}
 
 let formStart = document.querySelector('#form-start')
 
@@ -65,27 +61,10 @@ socket.on('sendPlayers', function(data) {
 canvas.onclick = (event) => {
     let mousePos = {x: event.offsetX, y: event.offsetY}
 
-    if (mousePos.x >= (window.innerWidth / 2)) {
-        dist.x += mousePos.x
-    }
-      
-    if (mousePos.x <= (window.innerWidth / 2)) {
-        dist.x -= mousePos.x
-    }
-
-    if (mousePos.y >= (window.innerHeight / 2)) {
-        dist.y += mousePos.y
-    }
-
-    if (mousePos.x <= (window.innerHeight / 2)) {
-        dist.y -= mousePos.y
-    }
-
-    console.log(mousePos.x + ' ' + window.innerWidth)
+    dist.x += mousePos.x - (window.innerWidth / 2)
+    dist.y += mousePos.y - (window.innerHeight / 2)
         
     socket.emit('mouseClick', dist)
-    console.log("Coordinate x: " + dist.x,  
-                "Coordinate y: " + dist.y); 
 }
 
 
