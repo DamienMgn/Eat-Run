@@ -38,7 +38,7 @@ io.on('connection', function(socket){
 
     /* Envoi des données au client */
       let interval = setInterval(() => {
-        io.emit('sendPlayers', game)
+        io.emit('sendPlayers', {game: game, playerId: socket.id})
         if (game.players[socket.id] != undefined) {
           game.players[socket.id].followMouse()
         }
