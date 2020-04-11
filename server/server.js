@@ -29,8 +29,8 @@ io.on('connection', function(socket){
     
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
-      for (i = 0; i <= 100; i++) {
-        let food = [getRandom(0, 1500), getRandom(0, 1500), 5]
+      for (i = 0; i <= 300; i++) {
+        let food = [getRandom(0, 3000), getRandom(0, 3000), 5]
         game.foods.push(food)
       }
     }
@@ -38,7 +38,7 @@ io.on('connection', function(socket){
 
     /* Envoi des données au client */
       let interval = setInterval(() => {
-        io.emit('sendPlayers', {game: game, playerId: socket.id})
+        socket.emit('sendPlayers', {game: game, playerId: socket.id})
         if (game.players[socket.id] != undefined) {
           game.players[socket.id].followMouse()
         }
