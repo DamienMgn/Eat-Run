@@ -1,12 +1,13 @@
 class Player {
-    constructor(id, r, mouseX, mouseY, name) {
+    constructor(id, r, name) {
         this.id = id;
         this.x = Math.round(Math.random() * (3000 - 0) + 0);
         this.y = Math.round(Math.random() * (3000 - 0) + 0);
         this.r = r;
         this.mouseX = this.x;
         this.mouseY = this.y;
-        this.name = name
+        this.name = name;
+        this.score = 0;
     }
 
     followMouse = () => {
@@ -20,4 +21,12 @@ class Player {
       }
 }
 
-module.exports = {Player};
+class Food {
+    constructor(color) {
+        this.x = Math.round(Math.random() * (3000 - 0) + 0);
+        this.y = Math.round(Math.random() * (3000 - 0) + 0);
+        this.r = Math.round(Math.random() * (10 - 4) + 4);
+        this.color = color
+    }
+}
+module.exports = {Player, Food};
