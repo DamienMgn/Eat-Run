@@ -80,7 +80,6 @@ socket.on('sendPlayers', function(data) {
 
 })
 
-
 /* Move player onclick */
 canvas.onclick = (event) => {
     let mousePos = {x: event.offsetX, y: event.offsetY}

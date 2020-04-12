@@ -29,7 +29,7 @@ io.on('connection', function(socket){
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
       for (i = 0; i <= 600; i++) {
-        let food = new Food('white')
+        let food = new Food(getRandomColor())
         game.foods.push(food)
       }
     }
@@ -46,7 +46,7 @@ io.on('connection', function(socket){
             if(food.x >= player.x - (player.r * 1) && food.x <= player.x + (player.r * 1) && food.y >= player.y - (player.r * 1) && food.y <= player.y + (player.r * 1)) {
               game.players[socket.id].r += food.r / 50
               game.foods.splice(index, 1)
-              let newFood = new Food('white')
+              let newFood = new Food(getRandomColor())
               game.foods.push(newFood)
             }
           });
@@ -71,14 +71,11 @@ io.on('connection', function(socket){
 
   });
 
-  const getRandomColor = () => {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+const getRandomColor = () => {
+    const colors = ['#C0392B', '#E74C3C', '#9B59B6', '#8E44AD', '#2980B9', '#3498DB', '#27AE60', '#2ECC71', '#F1C40F', '#F39C12', '#D35400']
+    let random = Math.round(Math.random() * (colors.length - 0) + 0);
+    return colors[random];
+}
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
