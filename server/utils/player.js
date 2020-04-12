@@ -14,8 +14,8 @@ class Player {
         let distanceX =  this.mouseX - this.x;
         let distanceY =  this.mouseY - this.y;
       
-        this.x += distanceX / this.r
-        this.y += distanceY / this.r
+        this.x += distanceX / (this.r * 5)
+        this.y += distanceY / (this.r * 5)
 
       }
 }
