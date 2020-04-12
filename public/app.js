@@ -73,8 +73,8 @@ socket.on('sendPlayers', function(data) {
     /* Draw foods */
     foods.map(food => {
         ctx.beginPath();
-        ctx.arc(food[0], food[1], food[2], 0, 2 * Math.PI, false);
-        ctx.fillStyle = food[3];
+        ctx.arc(food.x, food.y, food.r, 0, 2 * Math.PI, false);
+        ctx.fillStyle = food.color;
         ctx.fill();
     })
 

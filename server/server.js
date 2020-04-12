@@ -3,7 +3,7 @@ const app = express()
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const { Player } = require("./utils/player");
+const { Player, Food } = require("./utils/player");
 
 
 app.use(express.static('public'));
@@ -22,15 +22,15 @@ io.on('connection', function(socket){
 
     /* Nouveau joueur */
     socket.on('startGame', (data) => {
-      game.players[socket.id] = new Player(socket.id, 20, 0, 0, data.name)
-      console.log(game.players)
+      game.players[socket.id] = new Player(socket.id, 20, data.name)
     })
 
     
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
       for (i = 0; i <= 600; i++) {
-        newFood()
+        let food = new Food('white')
+        game.foods.push(food)
       }
     }
 
@@ -43,9 +43,11 @@ io.on('connection', function(socket){
 
           /* Detection contact Food vs Player */
           game.foods.forEach((food, index) => {
-            if(food[0] >= player.x - (player.r * 1) && food[0] <= player.x + (player.r * 1) && food[1] >= player.y - (player.r * 1) && food[1] <= player.y + (player.r * 1)) {
-              game.players[socket.id].r += food[2] / 50
-              food.splice(1, index)
+            if(food.x >= player.x - (player.r * 1) && food.x <= player.x + (player.r * 1) && food.y >= player.y - (player.r * 1) && food.y <= player.y + (player.r * 1)) {
+              game.players[socket.id].r += food.r / 50
+              game.foods.splice(index, 1)
+              let newFood = new Food('white')
+              game.foods.push(newFood)
             }
           });
         }
@@ -69,11 +71,6 @@ io.on('connection', function(socket){
 
   });
 
-
-  const getRandom = (min, max) => {
-    return Math.round(Math.random() * (max - min) + min);
-  }
-
   const getRandomColor = () => {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -81,11 +78,6 @@ io.on('connection', function(socket){
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
-
-  const newFood = () => {
-    let food = [getRandom(0, 3000), getRandom(0, 3000), getRandom(4, 10), getRandomColor()]
-    game.foods.push(food)
   }
 
 http.listen(3000, function(){
