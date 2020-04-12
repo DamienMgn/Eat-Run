@@ -9,7 +9,7 @@ const drawCanvas = () => {
     canvas.width = w;
     canvas.height = h;
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#283747';
+    ctx.fillStyle = '#17202A';
     ctx.fillRect(0, 0, w, h);
 }
 
