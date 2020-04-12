@@ -46,3 +46,18 @@ body {
     margin: 4px 2px;
     cursor: pointer;
   }
+
+  .score-box {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: #2C3E50;
+      color: white;
+      padding: 0.3rem 1rem;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }

@@ -45,6 +45,7 @@ io.on('connection', function(socket){
           game.foods.forEach((food, index) => {
             if(food.x >= player.x - (player.r * 1) && food.x <= player.x + (player.r * 1) && food.y >= player.y - (player.r * 1) && food.y <= player.y + (player.r * 1)) {
               game.players[socket.id].r += food.r / 50
+              game.players[socket.id].score ++
               game.foods.splice(index, 1)
               let newFood = new Food(getRandomColor())
               game.foods.push(newFood)

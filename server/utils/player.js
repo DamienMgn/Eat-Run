@@ -6,7 +6,8 @@ class Player {
         this.r = r;
         this.mouseX = this.x;
         this.mouseY = this.y;
-        this.name = name
+        this.name = name;
+        this.score = 0;
     }
 
     followMouse = () => {

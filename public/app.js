@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d');
 const w = 3000;
 const h = 3000;
 const formStart = document.querySelector('#form-start')
+const scoreBox = document.querySelector('.score-box-ul')
 
 /* Draw Map */
 const drawCanvas = () => {
@@ -14,7 +15,7 @@ const drawCanvas = () => {
     ctx.fillRect(0, 0, w, h);
 }
 
-const dist = {x: 0, y: 0}
+let dist = {x: 0, y: 0}
 
 /* Start Game */
 formStart.addEventListener('submit', (e) => {
@@ -57,13 +58,17 @@ socket.on('sendPlayers', function(data) {
         ctx.textAlign = "center";
         ctx.font = "15px Arial";
         ctx.fillText(players[player].name, posX, posY);
+
+        //let newLi = document.createElement('li');
+        //let content = document.createTextNode(players[player].name + ' : ' + players[player].score)
+        //scoreBox.appendChild(newLi.appendChild(content))
     }
 
     /* Draw quadrillage  */
-    let size = 150;
+    let size = 200;
 
-    for (i = 0; i < 20; i++) {
-        for (j = 0; j < 20; j++) {
+    for (i = 0; i < 15; i++) {
+        for (j = 0; j < 15; j++) {
             ctx.strokeStyle = "#FFFFFF";
             ctx.lineWidth = 0.3;
             ctx.strokeRect(size * i, size * j, size, size)
@@ -77,7 +82,6 @@ socket.on('sendPlayers', function(data) {
         ctx.fillStyle = food.color;
         ctx.fill();
     })
-
 })
 
 /* Move player onclick */
