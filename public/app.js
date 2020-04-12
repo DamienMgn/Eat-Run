@@ -1,8 +1,9 @@
 const socket = io();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-let w = 3000;
-let h = 3000;
+const w = 3000;
+const h = 3000;
+const formStart = document.querySelector('#form-start')
 
 const drawCanvas = () => {
     canvas.width = w;
@@ -10,12 +11,9 @@ const drawCanvas = () => {
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#283747';
     ctx.fillRect(0, 0, w, h);
-    ctx.stroke();
 }
 
 const dist = {x: 0, y: 0}
-
-let formStart = document.querySelector('#form-start')
 
 formStart.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -36,8 +34,9 @@ socket.on('sendPlayers', function(data) {
     if (activePlayer !== undefined) {
         drawCanvas()
         ctx.translate(-activePlayer.x + window.innerWidth / 2, -activePlayer.y + window.innerHeight / 2)
-        console.log(activePlayer)
-    }   
+    } else {
+        drawCanvas()
+    }
 
     for (let player in players) {
         let posX = players[player].x
@@ -45,14 +44,27 @@ socket.on('sendPlayers', function(data) {
 
         ctx.beginPath();
         ctx.arc(posX, posY, players[player].r, 0, 2 * Math.PI, false);
-        ctx.fillStyle = '#2ECC71';
+        ctx.fillStyle = '#3498DB';
         ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#F1C40F";
+        ctx.stroke();
+    }
+
+    let size = 150;
+
+    for (i = 0; i < 20; i++) {
+        for (j = 0; j < 20; j++) {
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.lineWidth = 0.3;
+            ctx.strokeRect(size * i, size * j, size, size)
+        }
     }
 
     foods.map(food => {
         ctx.beginPath();
         ctx.arc(food[0], food[1], food[2], 0, 2 * Math.PI, false);
-        ctx.fillStyle = '#2ECC71';
+        ctx.fillStyle = food[3];
         ctx.fill();
     })
 
@@ -66,5 +78,7 @@ canvas.onclick = (event) => {
         
     socket.emit('mouseClick', dist)
 }
+
+
 
 
