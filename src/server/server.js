@@ -3,7 +3,7 @@ const app = express()
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const { Player, Food } = require("./utils/game");
+const { Player, Food, Bullet } = require("./utils/game");
 
 
 app.use(express.static('src/client'));
@@ -39,6 +39,7 @@ io.on('connection', function(socket){
         let player = game.players[socket.id]
         if (player != undefined) {
           player.updatePosition()
+          player.bullets.forEach(bullet => bullet.updatePosition())
 
           /* Detection contact Food vs Player */
           game.foods.forEach((food, index) => {
@@ -57,6 +58,14 @@ io.on('connection', function(socket){
       socket.on('updateDirection', (angle) => {
         if(game.players[socket.id] != undefined) {
           game.players[socket.id].direction = angle
+        }
+      })
+
+      /* Le joueur shoot */
+      socket.on('shoot', (angle) => {
+        if(game.players[socket.id] != undefined) {
+          let bullet = new Bullet(game.players[socket.id].x, game.players[socket.id].y, angle)
+          game.players[socket.id].addBullet(bullet)
         }
       })
     

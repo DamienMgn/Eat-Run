@@ -28,6 +28,14 @@ const drawFood = (food) => {
     ctx.fill();
 }
 
+/* Dessiner les projeciles */
+const drawBullet = (bullet) => {
+    ctx.beginPath();
+    ctx.arc(bullet.x, bullet.y, bullet.r, 0, 2 * Math.PI, false);
+    ctx.fillStyle = '#FB18E0';
+    ctx.fill();
+}
+
 /* Ajouter les scores */
 const addScore = (player) => {
     const x = document.createElement("LI")

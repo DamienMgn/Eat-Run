@@ -6,9 +6,10 @@ class Player {
         this.r = r;
         this.color = color;
         this.direction = 90;
-        this.speed = 3;
+        this.speed = 2;
         this.name = name;
         this.score = 0;
+        this.bullets = []
     }
 
     updatePosition = () => {
@@ -37,6 +38,10 @@ class Player {
             this.y += this.speed * Math.cos(this.direction);
         }
     }
+
+    addBullet = (bullet) => {
+        this.bullets.push(bullet)
+    }
 }
 
 class Food {
@@ -47,4 +52,22 @@ class Food {
         this.color = color
     }
 }
-module.exports = {Player, Food};
+
+class Bullet {
+    constructor(x, y, direction) {
+        this.x = x
+        this.y = y
+        this.r = 5
+        this.direction = direction
+        this.speed = 10
+    }
+
+    updatePosition = () => {
+
+            this.x += this.speed * Math.sin(this.direction);
+        
+            this.y += this.speed * Math.cos(this.direction);
+    }
+}
+
+module.exports = {Player, Food, Bullet};

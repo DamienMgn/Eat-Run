@@ -6,7 +6,7 @@ const h = window.innerHeight
 const formStart = document.querySelector('#form-start')
 const scoreBox = document.querySelector('.score-box-ul')
 
-let direction = {x: 0, y: 0}
+let direction = 90
 
 /* Start Game */
 formStart.addEventListener('submit', (e) => {
@@ -45,6 +45,9 @@ socket.on('sendGame', function(data) {
         let player = players[currentPlayer]
         drawPlayer(player)
         addScore(player)
+        player.bullets.map(bullet => {
+            drawBullet(bullet)
+        })
     }
 
     /* Draw foods */
@@ -55,14 +58,19 @@ socket.on('sendGame', function(data) {
 
 /* Update direction */
 canvas.onmousemove = (event) => {
-    direction.x = event.offsetX - (window.innerWidth / 2)
-    direction.y = event.offsetY - (window.innerHeight / 2)
+    direction = Math.atan2(event.offsetX - (window.innerWidth / 2), event.offsetY - (window.innerHeight / 2))
 }
 
 setInterval(() => {
-    let angle = Math.atan2(direction.x, direction.y)
-    socket.emit('updateDirection', angle)
+    socket.emit('updateDirection', direction)
 }, 1000/60)
+
+/* Shoot */
+document.addEventListener('keypress', (e) => {
+    if (e.code === "Space") {
+        socket.emit('shoot', direction)
+    }
+})
 
 
 
