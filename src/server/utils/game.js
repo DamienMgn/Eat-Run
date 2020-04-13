@@ -5,20 +5,37 @@ class Player {
         this.y = Math.round(Math.random() * (3000 - 0) + 0);
         this.r = r;
         this.color = color;
-        this.mouseX = this.x;
-        this.mouseY = this.y;
+        this.direction = 90;
+        this.speed = 3;
         this.name = name;
         this.score = 0;
     }
 
-    followMouse = () => {
+    updatePosition = () => {
+        let newX = this.x += this.speed * Math.sin(this.direction);
+        if (newX >= 3000) {
+            this.x = 3000
+        } else {
+            this.x += this.speed * Math.sin(this.direction);
+        }
 
-        let distanceX =  this.mouseX - this.x;
-        let distanceY =  this.mouseY - this.y;
-      
-        this.x += distanceX / (this.r * 5)
-        this.y += distanceY / (this.r * 5)
+        if (newX <= 0) {
+            this.x = 0
+        } else {
+            this.x += this.speed * Math.sin(this.direction);
+        }
 
+        let newY = this.y += this.speed * Math.cos(this.direction);
+        if (newY >= 3000) {
+            this.y = 3000
+        } else {
+            this.y += this.speed * Math.cos(this.direction);
+        }
+        if (newY <= 0) {
+            this.y = 0
+        } else {
+            this.y += this.speed * Math.cos(this.direction);
+        }
     }
 }
 

@@ -6,8 +6,7 @@ const h = window.innerHeight
 const formStart = document.querySelector('#form-start')
 const scoreBox = document.querySelector('.score-box-ul')
 
-
-let dist = {x: 0, y: 0}
+let direction = {x: 0, y: 0}
 
 /* Start Game */
 formStart.addEventListener('submit', (e) => {
@@ -29,7 +28,7 @@ formStart.addEventListener('submit', (e) => {
 })
 
 /* Draw Game  */
-socket.on('sendPlayers', function(data) {
+socket.on('sendGame', function(data) {
     let players = data.game.players
     let foods = data.game.foods
     let activePlayer = players[data.playerId]
@@ -54,15 +53,16 @@ socket.on('sendPlayers', function(data) {
     })
 })
 
-/* Move player onclick */
-canvas.onclick = (event) => {
-    let mousePos = {x: event.offsetX, y: event.offsetY}
-
-    dist.x += mousePos.x - (window.innerWidth / 2)
-    dist.y += mousePos.y - (window.innerHeight / 2)
-        
-    socket.emit('mouseClick', dist)
+/* Update direction */
+canvas.onmousemove = (event) => {
+    direction.x = event.offsetX - (window.innerWidth / 2)
+    direction.y = event.offsetY - (window.innerHeight / 2)
 }
+
+setInterval(() => {
+    let angle = Math.atan2(direction.x, direction.y)
+    socket.emit('updateDirection', angle)
+}, 1000/60)
 
 
 

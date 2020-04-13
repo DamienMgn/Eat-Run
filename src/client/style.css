@@ -36,7 +36,7 @@ body {
 }
 
 .title {
-    color: white;
+    color: #FFFFFF;
     font-size: 8rem;
     margin: 0 0 3rem 0;
 }
@@ -152,7 +152,7 @@ input[type="radio"]:checked:before {
     top: -3.5rem;
     left: -2px;
     transform: rotate(90deg);
-    color: #EAFAF1;
+    color: #FFFFFF;
 }
 
 input[type="radio"]:after {

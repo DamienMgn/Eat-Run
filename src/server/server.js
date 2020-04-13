@@ -25,7 +25,6 @@ io.on('connection', function(socket){
       game.players[socket.id] = new Player(socket.id, 20, data.color, data.name)
     })
 
-    
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
       for (i = 0; i <= 600; i++) {
@@ -36,10 +35,10 @@ io.on('connection', function(socket){
 
     /* Envoi des données au client */
       let interval = setInterval(() => {
-        socket.emit('sendPlayers', {game: game, playerId: socket.id})
+        socket.emit('sendGame', {game: game, playerId: socket.id})
         let player = game.players[socket.id]
         if (player != undefined) {
-          player.followMouse()
+          player.updatePosition()
 
           /* Detection contact Food vs Player */
           game.foods.forEach((food, index) => {
@@ -54,15 +53,12 @@ io.on('connection', function(socket){
         }
       }, 1000/60)
 
-
     /* Mise à jour position souris */
-      socket.on('mouseClick', (mousePos) => {
+      socket.on('updateDirection', (angle) => {
         if(game.players[socket.id] != undefined) {
-          game.players[socket.id].mouseX = mousePos.x
-          game.players[socket.id].mouseY = mousePos.y
+          game.players[socket.id].direction = angle
         }
       })
-
     
     /* Déconnexion du joueur */
       socket.on('disconnect', () => {
@@ -72,12 +68,12 @@ io.on('connection', function(socket){
 
   });
 
-const getRandomColor = () => {
-    const colors = ['#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E']
-    let random = Math.round(Math.random() * (colors.length - 0) + 0);
-    return colors[random];
-}
-
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
+
+const getRandomColor = () => {
+  const colors = ['#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E']
+  let random = Math.round(Math.random() * (colors.length - 0) + 0);
+  return colors[random];
+}
