@@ -4,9 +4,6 @@ const drawPlayer = (player) => {
     ctx.arc(player.x, player.y, player.r, 0, 2 * Math.PI, false);
     ctx.fillStyle = player.color;
     ctx.fill();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "#C0392B";
-    ctx.stroke();
     ctx.fillStyle = "#FFFFFF";
     ctx.textAlign = "center";
     ctx.font = "15px Arial";
@@ -17,6 +14,8 @@ const drawPlayer = (player) => {
 const drawCanvas = () => {
     canvas.width = w;
     canvas.height = h;
+
+    console.log(w)
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#171C23';
     ctx.fillRect(0, 0, w, h);
