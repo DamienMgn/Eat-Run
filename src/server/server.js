@@ -22,7 +22,7 @@ io.on('connection', function(socket){
 
     /* Nouveau joueur */
     socket.on('startGame', (data) => {
-      game.players[socket.id] = new Player(socket.id, 20, data.name)
+      game.players[socket.id] = new Player(socket.id, 20, data.color, data.name)
     })
 
     

@@ -10,10 +10,22 @@
     <canvas id="canvas">
         Désolé, votre navigateur ne prend pas en charge &lt;canvas&gt;
     </canvas>
-    <form action="" id="form-start">
-        <input class="input" type="text" name="name" id="name" autocomplete="off" placeholder="name..">
-        <button class="btn" type="submit">Start</button>
-    </form>
+    <div class="form-container">
+        <h1 class="title">Eat & Run</h1>
+        <form action="" id="form-start">
+            <div class="color-picker-container">
+                <div class="color-container">
+                    <input type="radio" name="color" value="red" class="radio red">
+                    <input type="radio" name="color" value="blue" class="radio blue">
+                    <input type="radio" name="color" value="yellow" class="radio yellow">
+                    <input type="radio" name="color" value="green" class="radio green">
+                    <input type="radio" name="color" value="pink" class="radio pink">
+                </div>
+            </div>
+            <input class="input" type="text" name="name" id="name" autocomplete="off" placeholder="name..">
+            <button class="btn" type="submit">Rejoindre</button>
+        </form>
+    </div>
     <div class="score-box">
         <h3 class="score-box-title">Tableau des scores</h3>
         <ul class="score-box-ul">

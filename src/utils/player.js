@@ -1,9 +1,10 @@
 class Player {
-    constructor(id, r, name) {
+    constructor(id, r, color ,name) {
         this.id = id;
         this.x = Math.round(Math.random() * (3000 - 0) + 0);
         this.y = Math.round(Math.random() * (3000 - 0) + 0);
         this.r = r;
+        this.color = color;
         this.mouseX = this.x;
         this.mouseY = this.y;
         this.name = name;
@@ -18,7 +19,7 @@ class Player {
         this.x += distanceX / (this.r * 5)
         this.y += distanceY / (this.r * 5)
 
-      }
+    }
 }
 
 class Food {

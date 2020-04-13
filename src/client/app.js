@@ -1,10 +1,12 @@
 const socket = io();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const w = 3000;
-const h = 3000;
+const w = window.innerWidth;
+const h = window.innerHeight;
 const formStart = document.querySelector('#form-start')
 const scoreBox = document.querySelector('.score-box-ul')
+let dist = {x: 0, y: 0}
+
 
 /* Draw Map */
 const drawCanvas = () => {
@@ -15,18 +17,18 @@ const drawCanvas = () => {
     ctx.fillRect(0, 0, w, h);
 }
 
-let dist = {x: 0, y: 0}
-
 /* Start Game */
 formStart.addEventListener('submit', (e) => {
     e.preventDefault();
     let data = {
         name: e.target.name.value,
+        color: e.target.color.value,
         w: w,
         h: h,
     }
     socket.emit('startGame', data)
     formStart.style.display = 'none'
+    document.querySelector('.form-container').style.display = 'none'
 })
 
 /* Draw Game  */
@@ -49,12 +51,12 @@ socket.on('sendPlayers', function(data) {
 
         ctx.beginPath();
         ctx.arc(posX, posY, players[player].r, 0, 2 * Math.PI, false);
-        ctx.fillStyle = '#3498DB';
+        ctx.fillStyle = players[player].color;
         ctx.fill();
         ctx.lineWidth = 4;
-        ctx.strokeStyle = "#F1C40F";
+        ctx.strokeStyle = "#C0392B";
         ctx.stroke();
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "#FFFFFF";
         ctx.textAlign = "center";
         ctx.font = "15px Arial";
         ctx.fillText(players[player].name, posX, posY);
