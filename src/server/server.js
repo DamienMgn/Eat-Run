@@ -3,7 +3,7 @@ const app = express()
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const { Player, Food } = require("../utils/player");
+const { Player, Food } = require("./utils/game");
 
 
 app.use(express.static('src/client'));
@@ -22,7 +22,7 @@ io.on('connection', function(socket){
 
     /* Nouveau joueur */
     socket.on('startGame', (data) => {
-      game.players[socket.id] = new Player(socket.id, 20, data.name)
+      game.players[socket.id] = new Player(socket.id, 20, data.color, data.name)
     })
 
     
@@ -73,7 +73,7 @@ io.on('connection', function(socket){
   });
 
 const getRandomColor = () => {
-    const colors = ['#2ECC71', '#8E44AD']
+    const colors = ['#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E']
     let random = Math.round(Math.random() * (colors.length - 0) + 0);
     return colors[random];
 }

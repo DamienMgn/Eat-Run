@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Agar Clone</title>
 </head>
@@ -10,10 +11,22 @@
     <canvas id="canvas">
         Désolé, votre navigateur ne prend pas en charge &lt;canvas&gt;
     </canvas>
-    <form action="" id="form-start">
-        <input class="input" type="text" name="name" id="name" autocomplete="off" placeholder="name..">
-        <button class="btn" type="submit">Start</button>
-    </form>
+    <div class="form-container">
+        <h1 class="title">Eat & Run</h1>
+        <form action="" id="form-start">
+            <div class="color-picker-container">
+                <div class="color-container">
+                    <input type="radio" name="color" value="#E74C3C" class="radio red">
+                    <input type="radio" name="color" value="#3498DB" class="radio blue">
+                    <input type="radio" name="color" value="#F1C40F" class="radio yellow" checked>
+                    <input type="radio" name="color" value="#2ECC71" class="radio green">
+                    <input type="radio" name="color" value="#8E44AD" class="radio purple">
+                </div>
+            </div>
+            <input class="input" type="text" name="name" id="name" autocomplete="off" placeholder="Pseudo...">
+            <button class="btn" type="submit">Rejoindre</button>
+        </form>
+    </div>
     <div class="score-box">
         <h3 class="score-box-title">Tableau des scores</h3>
         <ul class="score-box-ul">
@@ -21,6 +34,7 @@
         </ul>
     </div>
 <script src="/socket.io/socket.io.js"></script>
+<script src="./utils/utils.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
