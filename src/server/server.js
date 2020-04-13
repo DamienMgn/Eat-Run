@@ -3,7 +3,7 @@ const app = express()
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const { Player, Food } = require("../utils/game");
+const { Player, Food } = require("./utils/game");
 
 
 app.use(express.static('src/client'));

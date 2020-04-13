@@ -15,7 +15,6 @@ const drawCanvas = () => {
     canvas.width = w;
     canvas.height = h;
 
-    console.log(w)
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#171C23';
     ctx.fillRect(0, 0, w, h);
@@ -27,4 +26,13 @@ const drawFood = (food) => {
     ctx.arc(food.x, food.y, food.r, 0, 2 * Math.PI, false);
     ctx.fillStyle = food.color;
     ctx.fill();
+}
+
+/* Ajouter les scores */
+const addScore = (player) => {
+    const x = document.createElement("LI")
+    let t = document.createTextNode(player.name + ' : ' + player.score)
+    x.style.color = player.color
+    x.appendChild(t)
+    scoreBox.appendChild(x)
 }
