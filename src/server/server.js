@@ -3,10 +3,10 @@ const app = express()
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const { Player, Food } = require("./utils/player");
+const { Player, Food } = require("../utils/player");
 
 
-app.use(express.static('public'));
+app.use(express.static('src/client'));
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
@@ -73,7 +73,7 @@ io.on('connection', function(socket){
   });
 
 const getRandomColor = () => {
-    const colors = ['#C0392B', '#E74C3C', '#9B59B6', '#8E44AD', '#2980B9', '#3498DB', '#27AE60', '#2ECC71', '#F1C40F', '#F39C12', '#D35400']
+    const colors = ['#2ECC71', '#8E44AD']
     let random = Math.round(Math.random() * (colors.length - 0) + 0);
     return colors[random];
 }

@@ -11,7 +11,7 @@ const drawCanvas = () => {
     canvas.width = w;
     canvas.height = h;
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#17202A';
+    ctx.fillStyle = '#171C23';
     ctx.fillRect(0, 0, w, h);
 }
 
@@ -62,17 +62,6 @@ socket.on('sendPlayers', function(data) {
         //let newLi = document.createElement('li');
         //let content = document.createTextNode(players[player].name + ' : ' + players[player].score)
         //scoreBox.appendChild(newLi.appendChild(content))
-    }
-
-    /* Draw quadrillage  */
-    let size = 200;
-
-    for (i = 0; i < 15; i++) {
-        for (j = 0; j < 15; j++) {
-            ctx.strokeStyle = "#FFFFFF";
-            ctx.lineWidth = 0.3;
-            ctx.strokeRect(size * i, size * j, size, size)
-        }
     }
 
     /* Draw foods */
