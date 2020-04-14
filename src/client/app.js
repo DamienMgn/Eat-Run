@@ -5,6 +5,7 @@ const w = window.innerWidth
 const h = window.innerHeight
 const formStart = document.querySelector('#form-start')
 const scoreBox = document.querySelector('.score-box-ul')
+const formContainer = document.querySelector('.form-container')
 
 let direction = 90
 
@@ -20,8 +21,6 @@ formStart.addEventListener('submit', (e) => {
 
     if (e.target.name.value.length > 0) {
         socket.emit('startGame', data)
-        formStart.style.display = 'none'
-        document.querySelector('.form-container').style.display = 'none'
     } else {
         document.querySelector('.input').classList.add('danger')
     }
@@ -35,19 +34,22 @@ socket.on('sendGame', function(data) {
 
     scoreBox.innerHTML = ""
 
-    if (activePlayer !== undefined) {
+    if (activePlayer !== undefined && activePlayer.life > 0) {
         drawCanvas()
         ctx.translate(-activePlayer.x + window.innerWidth / 2, -activePlayer.y + window.innerHeight / 2)
+        formContainer.style.display = 'none'
+    } else {
+        formContainer.style.display = 'flex'
     }
 
     /* Draw Player  */    
     for (let currentPlayer in players) {
         let player = players[currentPlayer]
-        drawPlayer(player)
         addScore(player)
         player.bullets.map(bullet => {
             drawBullet(bullet)
         })
+        drawPlayer(player)
     }
 
     /* Draw foods */

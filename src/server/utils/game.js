@@ -6,9 +6,10 @@ class Player {
         this.r = r;
         this.color = color;
         this.direction = 90;
-        this.speed = 2;
+        this.speed = 1.5;
         this.name = name;
         this.score = 0;
+        this.life = 10;
         this.bullets = []
     }
 
@@ -57,7 +58,7 @@ class Bullet {
     constructor(x, y, direction) {
         this.x = x
         this.y = y
-        this.r = 5
+        this.r = 10
         this.direction = direction
         this.speed = 10
     }
