@@ -22,7 +22,7 @@ io.on('connection', function(socket){
 
     /* Nouveau joueur */
     socket.on('startGame', (data) => {
-      game.players[socket.id] = new Player(socket.id, 20, data.color, data.name)
+      game.players[socket.id] = new Player(socket.id, 30, data.color, data.name)
     })
 
     /* Ajout de la nourriture */
@@ -41,16 +41,34 @@ io.on('connection', function(socket){
           player.updatePosition()
           player.bullets.forEach(bullet => bullet.updatePosition())
 
-          /* Detection contact Food vs Player */
+          /* Collision Food vs Player */
           game.foods.forEach((food, index) => {
             if(food.x >= player.x - (player.r * 1) && food.x <= player.x + (player.r * 1) && food.y >= player.y - (player.r * 1) && food.y <= player.y + (player.r * 1)) {
-              game.players[socket.id].r += food.r / 50
               game.players[socket.id].score ++
               game.foods.splice(index, 1)
               let newFood = new Food(getRandomColor())
               game.foods.push(newFood)
             }
           });
+
+          /* Collision Bullet vs Player */
+          game.players[socket.id].bullets.map((bullet, index) => {
+              for(uPlayer in game.players) {
+                if(uPlayer !== socket.id) {
+                  let player = game.players[uPlayer]
+                  if(bullet.x >= player.x - (player.r * 1) && bullet.x <= player.x + (player.r * 1) && bullet.y >= player.y - (player.r * 1) && bullet.y <= player.y + (player.r * 1)) {
+                    game.players[socket.id].bullets.splice(index, 1)
+                    player.life --
+                    console.log(player)
+
+                    if (player.life <= 0) {
+                      console.log('is dead')
+                      delete game.players[uPlayer]
+                    }
+                  }
+                }
+              }
+          })
         }
       }, 1000/60)
 
@@ -82,7 +100,7 @@ http.listen(3000, function(){
 });
 
 const getRandomColor = () => {
-  const colors = ['#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E']
+  const colors = ['#F5B7B1', '#AED6F1', '#F9E79F', '#ABEBC6', '#D2B4DE']
   let random = Math.round(Math.random() * (colors.length - 0) + 0);
   return colors[random];
 }
