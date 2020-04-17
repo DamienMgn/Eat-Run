@@ -12,5 +12,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DamienMgn/Eat-Run.git"
   }
 }

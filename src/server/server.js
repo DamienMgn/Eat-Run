@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const PORT = process.env.PORT || 5000
 
 const { Player, Food, Bullet } = require("./utils/game");
 
@@ -95,12 +96,10 @@ io.on('connection', function(socket){
 
   });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
-
 const getRandomColor = () => {
   const colors = ['#F5B7B1', '#AED6F1', '#F9E79F', '#ABEBC6', '#D2B4DE']
   let random = Math.round(Math.random() * (colors.length - 0) + 0);
   return colors[random];
 }
+
+http.listen(PORT, () => console.log(`Listening on ${ PORT }`))
