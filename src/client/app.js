@@ -8,6 +8,7 @@ const scoreBox = document.querySelector('.score-box-ul')
 const formContainer = document.querySelector('.form-container')
 
 let direction = 90
+let movePlayer = {right: false, left: false, up: false, down: false}
 
 /* Start Game */
 formStart.addEventListener('submit', (e) => {
@@ -47,6 +48,7 @@ socket.on('sendGame', function(data) {
         let player = players[currentPlayer]
         addScore(player)
         player.bullets.map(bullet => {
+            console.log(bullet)
             drawBullet(bullet)
         })
         drawPlayer(player)
@@ -58,26 +60,49 @@ socket.on('sendGame', function(data) {
     })
 })
 
-const movePlayer = {
-    right: false,
-    left: false,
-    up: false,
-    down: false
-}
-
-/* Update direction */
+/* Update mouse direction */
 canvas.onmousemove = (event) => {
     direction = Math.atan2(event.offsetX - (window.innerWidth / 2), event.offsetY - (window.innerHeight / 2))
 }
 
-/* Shoot */
-document.addEventListener('keypress', (e) => {
-    if (e.code === "Space") {
-        socket.emit('shoot', direction)
+/* Update player direction */
+document.addEventListener('keydown', (e) => {
+    if (e.code === "ArrowRight") {
+        movePlayer.right = true
     }
-    console.log(e)
+    if (e.code === "ArrowLeft") {
+        movePlayer.left = true
+    }
+    if (e.code === "ArrowUp") {
+        movePlayer.up = true
+    }
+    if (e.code === "ArrowDown") {
+        movePlayer.down = true
+    }
 })
 
+document.addEventListener('keyup', (e) => {
+    if (e.code === "ArrowRight") {
+        movePlayer.right = false
+    }
+    if (e.code === "ArrowLeft") {
+        movePlayer.left = false
+    }
+    if (e.code === "ArrowUp") {
+        movePlayer.up = false
+    }
+    if (e.code === "ArrowDown") {
+        movePlayer.down = false
+    }
+})
 
+setInterval(() => {
+    socket.emit('movePlayer', movePlayer)
+}, 1000/60)
+
+/* Player shoot */
+canvas.onclick = () => {
+    socket.emit('shoot', direction)
+}
 
 

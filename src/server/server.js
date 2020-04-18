@@ -39,8 +39,12 @@ io.on('connection', function(socket){
         socket.emit('sendGame', {game: game, playerId: socket.id})
         let player = game.players[socket.id]
         if (player != undefined) {
-          player.updatePosition()
-          player.bullets.forEach(bullet => bullet.updatePosition())
+          player.bullets.forEach((bullet, index) => {
+            bullet.updatePosition()
+            if (bullet.updatePosition()) {
+              game.players[socket.id].bullets.splice(index, 1)
+            }
+          })
 
           /* Collision Food vs Player */
           game.foods.forEach((food, index) => {
@@ -73,9 +77,9 @@ io.on('connection', function(socket){
       }, 1000/60)
 
     /* Mise à jour position souris */
-      socket.on('updateDirection', (angle) => {
+      socket.on('movePlayer', (newPos) => {
         if(game.players[socket.id] != undefined) {
-          game.players[socket.id].direction = angle
+          game.players[socket.id].updatePosition(newPos)
         }
       })
 
