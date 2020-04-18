@@ -5,38 +5,27 @@ class Player {
         this.y = Math.round(Math.random() * (3000 - 0) + 0);
         this.r = r;
         this.color = color;
-        this.direction = 90;
-        this.speed = 1.5;
         this.name = name;
         this.score = 0;
         this.life = 10;
         this.bullets = []
     }
 
-    updatePosition = () => {
-        let newX = this.x += this.speed * Math.sin(this.direction);
-        if (newX >= 3000) {
-            this.x = 3000
-        } else {
-            this.x += this.speed * Math.sin(this.direction);
+    updatePosition = (newPos) => {
+        if (newPos.right) {
+            this.x += 5
         }
 
-        if (newX <= 0) {
-            this.x = 0
-        } else {
-            this.x += this.speed * Math.sin(this.direction);
+        if (newPos.left) {
+            this.x += -5
         }
 
-        let newY = this.y += this.speed * Math.cos(this.direction);
-        if (newY >= 3000) {
-            this.y = 3000
-        } else {
-            this.y += this.speed * Math.cos(this.direction);
+        if (newPos.up) {
+            this.y -= 5
         }
-        if (newY <= 0) {
-            this.y = 0
-        } else {
-            this.y += this.speed * Math.cos(this.direction);
+
+        if (newPos.down) {
+            this.y += 5
         }
     }
 
@@ -60,12 +49,21 @@ class Bullet {
         this.y = y
         this.r = 10
         this.direction = direction
-        this.speed = 10
+        this.speed = 7
     }
 
     updatePosition = () => {
-        this.x += this.speed * Math.sin(this.direction);
-        this.y += this.speed * Math.cos(this.direction);
+        if (this.x >= 3000 || this.x <= 0) {
+            return true
+        } else {
+            this.x += this.speed * Math.sin(this.direction);
+        }
+
+        if (this.y >= 3000 || this.y <= 0) {
+            return true
+        } else {
+            this.y += this.speed * Math.cos(this.direction);
+        }
     }
 }
 
