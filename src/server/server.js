@@ -61,7 +61,6 @@ io.on('connection', function(socket){
                     game.players[socket.id].bullets.splice(index, 1)
                     player.life --
                     console.log(player)
-
                     if (player.life <= 0) {
                       console.log('is dead')
                       delete game.players[uPlayer]

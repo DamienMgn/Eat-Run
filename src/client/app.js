@@ -58,20 +58,24 @@ socket.on('sendGame', function(data) {
     })
 })
 
+const movePlayer = {
+    right: false,
+    left: false,
+    up: false,
+    down: false
+}
+
 /* Update direction */
 canvas.onmousemove = (event) => {
     direction = Math.atan2(event.offsetX - (window.innerWidth / 2), event.offsetY - (window.innerHeight / 2))
 }
-
-setInterval(() => {
-    socket.emit('updateDirection', direction)
-}, 1000/60)
 
 /* Shoot */
 document.addEventListener('keypress', (e) => {
     if (e.code === "Space") {
         socket.emit('shoot', direction)
     }
+    console.log(e)
 })
 
 

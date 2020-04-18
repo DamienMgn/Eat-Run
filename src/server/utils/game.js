@@ -64,10 +64,8 @@ class Bullet {
     }
 
     updatePosition = () => {
-
-            this.x += this.speed * Math.sin(this.direction);
-        
-            this.y += this.speed * Math.cos(this.direction);
+        this.x += this.speed * Math.sin(this.direction);
+        this.y += this.speed * Math.cos(this.direction);
     }
 }
 
