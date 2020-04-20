@@ -48,7 +48,6 @@ socket.on('sendGame', function(data) {
         let player = players[currentPlayer]
         addScore(player)
         player.bullets.map(bullet => {
-            console.log(bullet)
             drawBullet(bullet)
         })
         drawPlayer(player)

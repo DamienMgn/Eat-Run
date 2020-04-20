@@ -4,10 +4,6 @@ const drawPlayer = (player) => {
     ctx.arc(player.x, player.y, player.r, 0, 2 * Math.PI, false);
     ctx.fillStyle = player.color;
     ctx.fill();
-    ctx.fillStyle = "#FFFFFF";
-    ctx.textAlign = "center";
-    ctx.font = "15px Arial";
-    ctx.fillText(player.name, player.x, player.y);
 }
 
 /* Dessiner la map */

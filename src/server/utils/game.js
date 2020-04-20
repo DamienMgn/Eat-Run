@@ -9,23 +9,44 @@ class Player {
         this.score = 0;
         this.life = 10;
         this.bullets = []
+        this.speed = 3
     }
 
     updatePosition = (newPos) => {
         if (newPos.right) {
-            this.x += 5
+            let newX = this.x += this.speed
+            if (newX >= 3000) {
+                this.x = 3000
+            } else {
+                this.x += this.speed
+            }
         }
 
         if (newPos.left) {
-            this.x += -5
-        }
-
-        if (newPos.up) {
-            this.y -= 5
+            let newX = this.x -= this.speed
+            if (newX <= 0) {
+                this.x = 0
+            } else {
+                this.x -= this.speed
+            }
         }
 
         if (newPos.down) {
-            this.y += 5
+            let newY = this.y += this.speed
+            if (newY >= 3000) {
+                this.y = 3000
+            } else {
+                this.y += this.speed
+            }
+        }
+
+        if (newPos.up) {
+            let newY = this.y -= this.speed
+            if (newY <= 0) {
+                this.y = 0
+            } else {
+                this.y -= this.speed
+            }
         }
     }
 
@@ -38,7 +59,7 @@ class Food {
     constructor(color) {
         this.x = Math.round(Math.random() * (3000 - 0) + 0);
         this.y = Math.round(Math.random() * (3000 - 0) + 0);
-        this.r = Math.round(Math.random() * (10 - 4) + 4);
+        this.r = 8;
         this.color = color
     }
 }

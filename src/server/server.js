@@ -28,7 +28,7 @@ io.on('connection', function(socket){
 
     /* Ajout de la nourriture */
     if(game.foods.length === 0) {
-      for (i = 0; i <= 600; i++) {
+      for (i = 0; i <= 200; i++) {
         let food = new Food(getRandomColor())
         game.foods.push(food)
       }
