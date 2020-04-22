@@ -13,7 +13,7 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
   });
 
-const game = {
+let game = {
   players: {},
   foods: []
 }
